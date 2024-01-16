@@ -1,0 +1,8 @@
+{
+    "name": "MachineConfig",
+    "version": "1.0.0",
+    "parameters": {
+      "numStacks": "5",
+      "maxCardsPerStack": "50"
+    }
+  }
