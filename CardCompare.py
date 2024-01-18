@@ -25,7 +25,15 @@ class CardCompare:
     def clear(self):
         self._population.clear()
         self._populationNames.clear()
-   
+
+    def bulkRegister(self, newNamesList):
+        newCards=[]
+        for name in newNamesList:
+            newCards.append(Card(name))
+        self._population.extend(newCards)
+        self.sortPopulation()
+        self.regenNames()
+
     def register(self, newCard):
         newPop = [newCard]
         newPop.extend(self._population)
@@ -75,12 +83,12 @@ class CardCompare:
             for a in arr:
                 val += 2 ** 'WUBRG'.index(a)
             return val
-        
+
         testSort = [cardColors1, cardColors2]
         sorted_lists = sorted(testSort, key=custom_sort)
-        
+
         return CardCompare.FIRST if cardColors1 == sorted_lists[0] else CardCompare.SECOND
-    
+
     def compareWords(word1, word2):
         if word1 == word2:
             return CardCompare.SAME
@@ -88,12 +96,12 @@ class CardCompare:
 
     def compareNames(cardName1, cardName2):
         return CardCompare.compareWords(cardName1, cardName2)
-    
+
     def compareCMC(cardCmc1, cardCmc2):
         if cardCmc1 == cardCmc2:
             return CardCompare.SAME
         return CardCompare.FIRST if cardCmc1 < cardCmc2 else CardCompare.SECOND
-    
+
     def compareLand(c1Attribute, c1ColorId, c2Attribute, c2ColorId):
         if not (c1Attribute or c2Attribute):
             return CardCompare.SAME
@@ -114,14 +122,14 @@ class CardCompare:
     def compare(card1: Card, card2: Card):
         if card1.name == card2.name:
             return CardCompare.SAME
-        
+
         # Filter out basics, then nonbasic lands.
         # Sort by color, then CMC, then name alphabetically
 
         result = CardCompare.compareBasicLand(card1, card2)
         if result != CardCompare.SAME:
             return result
-        
+
         result = CardCompare.compareNonBasicLand(card1, card2)
         if result != CardCompare.SAME:
             return result
@@ -129,12 +137,11 @@ class CardCompare:
         result = CardCompare.compareColors(card1.colors, card2.colors)
         if result != CardCompare.SAME:
             return result
-        
+
         result = CardCompare.compareCMC(card1.cmc, card2.cmc)
         if result != CardCompare.SAME:
             return result
-        
+
         result = CardCompare.compareNames(card1.name, card2.name)
         return result
-        
-    
+
