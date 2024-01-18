@@ -1,6 +1,8 @@
 from Card import Card
 from CardCompare import CardCompare
 
+population = CardCompare()
+
 cardNames = ["Azorius Charm","Boros Charm", "Gruul Charm",
              "Eye of Ugin", "Mountain", "Shadowborne Apostle",
              "Skullclamp", "Geist of Saint Traft", "Eerie Ultimatum",
@@ -13,24 +15,11 @@ cardNames = ["Azorius Charm","Boros Charm", "Gruul Charm",
 
 cards = []
 for c in cardNames:
-    cards.append(Card(c))
+    population.getValue(c)
 
-repeatIsNecessary = True
-iterations = 0
-while repeatIsNecessary:
-  repeatIsNecessary = False
-  for i in range(len(cardNames) - 1):
-      result = CardCompare.compare( cards[i], cards[i+1] )
-      if result == CardCompare.SECOND:
-          repeatIsNecessary = True
-          tempCard = cards[i]
-          cards[i] = cards[i+1]
-          cards[i+1] = tempCard
-      a = 1
-  iterations += 1
-for c in cards:
-  print(c.name)
-print(f'{iterations} iterations')
+for c in population._populationNames:
+  print(c)
+
 
 # Should print:
 # Piety Charm

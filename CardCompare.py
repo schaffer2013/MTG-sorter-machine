@@ -5,6 +5,65 @@ class CardCompare:
     FIRST = 1
     SECOND = 2
 
+    _population = []
+    _populationNames = []
+
+    def getValue(self, name):
+        if name in self._populationNames:
+            # Do something
+            a = 1
+            return self._populationNames.index(name)
+        else: 
+            newCard = Card(name)
+            if newCard.name in self._populationNames:
+            # Do something
+                a = 1
+            else:
+                self.register(newCard)
+        return self._populationNames.index(newCard.name)
+
+    def clear(self):
+        self._population.clear()
+        self._populationNames.clear()
+   
+    def register(self, newCard):
+        newPop = [newCard]
+        newPop.extend(self._population)
+        self._population = newPop
+        self.sortPopulation()
+        self.regenNames()
+
+    def regenNames(self):
+        self._populationNames.clear()
+        for c in self._population:
+            self._populationNames.append(c.name)
+
+    def sortPopulation(self):
+        if len(self._population) > 1:
+            repeatIsNecessary = True
+            iterations = 0
+            while repeatIsNecessary:
+                repeatIsNecessary = False
+                for i in range(len(self._population) - 1):
+                    result = CardCompare.compare( self._population[i], self._population[i+1] )
+                    if result == CardCompare.SECOND:
+                        repeatIsNecessary = True
+                        self.swapCards(i, i+1)
+                iterations += 1
+
+    def swapCards(self, index1:int, index2: int):
+        tempCard = self._population[index1]
+        self._population[index1] = self._population[index2]
+        self._population[index2] = tempCard
+
+    def compareNormals(c1: Card, c2: Card):
+        # Fix up!
+        result = CardCompare.compareWords(c1.layout, c2.layout)
+        if result != CardCompare.SAME:
+            return result
+        result = CardCompare.compareNames(c1.name, c2.name)
+        return result
+
     def compareColors(cardColors1, cardColors2):
         if cardColors1 == cardColors2:
             return CardCompare.SAME
@@ -21,10 +80,14 @@ class CardCompare:
         sorted_lists = sorted(testSort, key=custom_sort)
         
         return CardCompare.FIRST if cardColors1 == sorted_lists[0] else CardCompare.SECOND
-    def compareNames(cardName1, cardName2):
-        if cardName1 == cardName2:
+    
+    def compareWords(word1, word2):
+        if word1 == word2:
             return CardCompare.SAME
-        return CardCompare.FIRST if cardName1 < cardName2 else CardCompare.SECOND
+        return CardCompare.FIRST if word1 < word2 else CardCompare.SECOND
+
+    def compareNames(cardName1, cardName2):
+        return CardCompare.compareWords(cardName1, cardName2)
     
     def compareCMC(cardCmc1, cardCmc2):
         if cardCmc1 == cardCmc2:
