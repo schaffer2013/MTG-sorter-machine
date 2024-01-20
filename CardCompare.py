@@ -8,37 +8,36 @@ class CardCompare:
     _population = []
     _populationNames = []
 
-    def getValue(self, name):
+    def register(self, name, sortAfter = True):
         if name in self._populationNames:
-            # Do something
-            a = 1
-            return self._populationNames.index(name)
+            if sortAfter:
+                self.sortPopulation()
+            return name
         else: 
             newCard = Card(name)
-            if newCard.name in self._populationNames:
-            # Do something
-                a = 1
-            else:
-                self.register(newCard)
-        return self._populationNames.index(newCard.name)
+            if not newCard.name in self._populationNames:
+                self.registerAndSort(newCard)
+                #self.registerAndSort(newCard, sort = sortAfter)
+        return newCard.name
+
+    def getValue(self, name):
+        n = self.register(name)
+        return self._populationNames.index(n)
 
     def clear(self):
         self._population.clear()
         self._populationNames.clear()
 
     def bulkRegister(self, newNamesList):
-        newCards=[]
         for name in newNamesList:
-            newCards.append(Card(name))
-        self._population.extend(newCards)
-        self.sortPopulation()
-        self.regenNames()
+            self.register(name, sortAfter = name == newNamesList[-1])
 
-    def register(self, newCard):
+    def registerAndSort(self, newCard, sort = True):
         newPop = [newCard]
         newPop.extend(self._population)
         self._population = newPop
-        self.sortPopulation()
+        if sort:
+            self.sortPopulation()
         self.regenNames()
 
     def regenNames(self):
@@ -65,10 +64,22 @@ class CardCompare:
         self._population[index2] = tempCard
 
     def compareNormals(c1: Card, c2: Card):
-        # Fix up!
+        c1Normal = c1.layout == 'normal'
+        c2Normal = c2.layout == 'normal'
+
+        # Prioritize normals
+        if c1Normal and c2Normal:
+            return CardCompare.SAME
+        if c1Normal:
+            return CardCompare.FIRST        
+        if c2Normal:
+            return CardCompare.SECOND
+        
+        # If neither are "normal", group by layout then alphabetically.
         result = CardCompare.compareWords(c1.layout, c2.layout)
         if result != CardCompare.SAME:
             return result
+        
         result = CardCompare.compareNames(c1.name, c2.name)
         return result
 
@@ -123,8 +134,12 @@ class CardCompare:
         if card1.name == card2.name:
             return CardCompare.SAME
 
-        # Filter out basics, then nonbasic lands.
+        # Filter out non-normal layouts, basics, then nonbasic lands.
         # Sort by color, then CMC, then name alphabetically
+
+        result = CardCompare.compareNormals(card1, card2)
+        if result != CardCompare.SAME:
+            return result
 
         result = CardCompare.compareBasicLand(card1, card2)
         if result != CardCompare.SAME:
