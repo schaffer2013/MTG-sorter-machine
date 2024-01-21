@@ -2,8 +2,7 @@ import random
 from time import sleep, time
 
 import scrython
-from Card import Card
-from CardCompare import CardCompare
+from CardManage.CardCompare import CardCompare
 
 NO_CARD = 999999
 pre_time = time()
@@ -112,7 +111,7 @@ def minMaxIndex(arr):
 
 population = CardCompare()
 
-NUM_CARDS = 300
+NUM_CARDS = 30
 
 cardNames = []
 for i in range(NUM_CARDS):
@@ -157,8 +156,9 @@ while shuffles > 1:
   print(time()-time_start)
 
 
-for c in population._populationNames:
-  print(c)
+for p in allPiles:
+  for c in p:
+    print(c)
 
 
 # Should print:

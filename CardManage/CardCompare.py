@@ -1,4 +1,4 @@
-from Card import Card
+from CardManage.Card import Card
 
 class CardCompare:
     SAME = 0
