@@ -7,17 +7,19 @@ class CardCompare:
 
     _population = []
     _populationNames = []
+    _populationSorted = False
 
     def register(self, name, sortAfter = True):
         if name in self._populationNames:
-            if sortAfter:
+            if sortAfter and not self._populationSorted:
                 self.sortPopulation()
             return name
         else: 
             newCard = Card(name)
             if not newCard.name in self._populationNames:
+                #self.registerAndSort(newCard)
+                self._populationSorted = False
                 self.registerAndSort(newCard)
-                #self.registerAndSort(newCard, sort = sortAfter)
         return newCard.name
 
     def getValue(self, name):
@@ -33,11 +35,12 @@ class CardCompare:
             self.register(name, sortAfter = name == newNamesList[-1])
 
     def registerAndSort(self, newCard, sort = True):
+        if newCard.name in self._populationNames:
+            return
         newPop = [newCard]
         newPop.extend(self._population)
         self._population = newPop
-        if sort:
-            self.sortPopulation()
+        self.sortPopulation()
         self.regenNames()
 
     def regenNames(self):
@@ -57,6 +60,7 @@ class CardCompare:
                         repeatIsNecessary = True
                         self.swapCards(i, i+1)
                 iterations += 1
+            self._populationSorted = True
 
     def swapCards(self, index1:int, index2: int):
         tempCard = self._population[index1]

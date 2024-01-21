@@ -1,4 +1,7 @@
 import random
+from time import sleep
+
+import scrython
 from Card import Card
 from CardCompare import CardCompare
 
@@ -38,6 +41,7 @@ def transfer(pileFrom, pileTo):
   #totalMoves += 1
 
 def todoName(dealFrom, sortInArray, collectIn, standardOrder = True):
+  shuffles = 0
   while len(allPiles[dealFrom])>0:
     # Deal out
     dealt = True
@@ -47,6 +51,9 @@ def todoName(dealFrom, sortInArray, collectIn, standardOrder = True):
     collected = True
     while collected:
       collected = collect(sortInArray, collectIn, standardOrder)
+    shuffles += 1
+  print(shuffles)
+  return shuffles
 
 def dealOut(dealFrom, sortInArray, lowestOnTop = True):
   if len(allPiles[dealFrom])<=0:
@@ -83,9 +90,9 @@ def collect(sortInArray, collectIn, collectLowestFirst = True):
 
   (minimumIndex, maximumIndex) = minMaxIndex(sortInPileValues)
   if collectLowestFirst:
-    transfer(minimumIndex + 1, collectIn)
+    transfer(sortInArray[minimumIndex], collectIn)
   else:
-    transfer(maximumIndex + 1, collectIn)
+    transfer(sortInArray[maximumIndex], collectIn)
   return True
 
 def minMax(arr):
@@ -104,15 +111,22 @@ def minMaxIndex(arr):
 
 population = CardCompare()
 
-cardNames = ["Azorius Charm","Boros Charm", "Gruul Charm",
-             "Eye of Ugin", "Mountain", "Shadowborne Apostle",
-             "Skullclamp", "Geist of Saint Traft", "Eerie Ultimatum",
-             "Ramos, Dragon Engine", "Island", "Plains", "Wastes",
-             "Piety Charm", "Colossal Dreadmaw", "The Kami War",
-             "Jungle Shrine", "Jetmir's Garden", "Savai Triome",
-             "Wastes", "City of Brass", "Ornithopter", "Squirrel", "Bone Saw",
-             "Cromat", "Clue", "Arbor Dryad", "Khalni Garden", "Command Tower",
-             "Arcane Signet", "Selesnya Guildgate"]
+NUM_CARDS = 100
+
+cardNames = []
+for i in range(NUM_CARDS):
+  cardNames.append(scrython.cards.Random().name())
+  sleep(0.01)
+
+# cardNames = ["Azorius Charm","Boros Charm", "Gruul Charm",
+#              "Eye of Ugin", "Mountain", "Shadowborne Apostle",
+#              "Skullclamp", "Geist of Saint Traft", "Eerie Ultimatum",
+#              "Ramos, Dragon Engine", "Island", "Plains", "Wastes",
+#              "Piety Charm", "Colossal Dreadmaw", "The Kami War",
+#              "Jungle Shrine", "Jetmir's Garden", "Savai Triome",
+#              "Wastes", "City of Brass", "Ornithopter", "Squirrel", "Bone Saw",
+#              "Cromat", "Clue", "Dryad Arbor", "Khalni Garden", "Command Tower",
+#              "Arcane Signet", "Selesnya Guildgate"]
 
 
 random.shuffle(cardNames)
@@ -127,8 +141,16 @@ totalMoves = 0
 
 initPile(0, cardNames)
 
-todoName(0, [1, 2, 3], 4)
-todoName(4, [3, 2, 1], 0)
+initial_pile = 0
+sorting_piles = [1, 2, 3]
+last_pile = 4
+
+shuffles = 1000
+while shuffles > 0:
+  shuffles = todoName(initial_pile, sorting_piles, last_pile)
+  sorting_piles.reverse()
+  (initial_pile, last_pile) = (last_pile, initial_pile)
+
 
 for c in population._populationNames:
   print(c)
