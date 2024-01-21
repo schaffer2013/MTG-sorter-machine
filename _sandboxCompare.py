@@ -1,6 +1,5 @@
 import random
 from time import sleep, time
-
 import scrython
 from CardManage.CardCompare import CardCompare
 
@@ -72,7 +71,6 @@ def dealOut(dealFrom, sortInArray, lowestOnTop = True):
         transfer(dealFrom, sortInArray[i])
         return True
   return False
-  
 
 def collect(sortInArray, collectIn, collectLowestFirst = True):
   allEmpty = True

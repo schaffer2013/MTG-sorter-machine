@@ -1,9 +1,40 @@
-from Card import Card
-from CardCompare import CardCompare
+from CardManage.Card import Card
+from CardManage.CardCompare import CardCompare
+from CardManage.Sorter import Sorter
 
-c1 = Card("ancestral vision")
-c2 = Card("mountain")
+s = Sorter (5)
 
-comp = CardCompare.compare(c1, c2)
+print(s.sortingPiles)
 
-print(c1)
+cardNames = ["Azorius Charm","Boros Charm", "Gruul Charm",
+             "Eye of Ugin", "Mountain", "Shadowborne Apostle",
+             "Skullclamp", "Geist of Saint Traft", "Eerie Ultimatum",
+             "Ramos, Dragon Engine", "Island", "Plains", "Wastes",
+             "Piety Charm", "Colossal Dreadmaw", "The Kami War"]#,
+            # "Jungle Shrine", "Jetmir's Garden", "Savai Triome",
+            #  "Wastes", "City of Brass", "Ornithopter", "Squirrel", "Bone Saw",
+            #  "Cromat", "Clue", "Dryad Arbor", "Khalni Garden", "Command Tower",
+            #  "Arcane Signet", "Selesnya Guildgate"]
+
+index = 0
+cardNameLen = len(cardNames)
+
+while (index < cardNameLen):
+    s.registerTopCardOfPile(0, cardNames[index])
+    a = s.suggestMove()
+    s.transfer(a[0], a[1])
+    if a[0] == 0:
+        index += 1
+
+stillSorting = False
+for p in s.virtualTwinStacks:
+    if len(p) > 0:
+        stillSorting = True
+while (stillSorting == True and not s.stop):
+    for p in s.virtualTwinStacks:
+        if len(p) > 0:
+            stillSorting = True
+            break
+    a = s.suggestMove()
+    s.transfer(a[0], a[1])
+s.suggestMove()
