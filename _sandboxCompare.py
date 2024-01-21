@@ -1,11 +1,12 @@
 import random
-from time import sleep
+from time import sleep, time
 
 import scrython
 from Card import Card
 from CardCompare import CardCompare
 
-NO_CARD = 99999
+NO_CARD = 999999
+pre_time = time()
 
 def initPile(pileIndex, array = []):
   allPiles[pileIndex].clear()
@@ -111,7 +112,7 @@ def minMaxIndex(arr):
 
 population = CardCompare()
 
-NUM_CARDS = 100
+NUM_CARDS = 300
 
 cardNames = []
 for i in range(NUM_CARDS):
@@ -145,11 +146,15 @@ initial_pile = 0
 sorting_piles = [1, 2, 3]
 last_pile = 4
 
+print(f'Pre-time: {time() - pre_time}')
+
+time_start = time()
 shuffles = 1000
-while shuffles > 0:
+while shuffles > 1:
   shuffles = todoName(initial_pile, sorting_piles, last_pile)
   sorting_piles.reverse()
   (initial_pile, last_pile) = (last_pile, initial_pile)
+  print(time()-time_start)
 
 
 for c in population._populationNames:

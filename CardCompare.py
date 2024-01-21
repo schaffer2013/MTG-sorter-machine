@@ -11,8 +11,6 @@ class CardCompare:
 
     def register(self, name, sortAfter = True):
         if name in self._populationNames:
-            if sortAfter and not self._populationSorted:
-                self.sortPopulation()
             return name
         else: 
             newCard = Card(name)
@@ -55,17 +53,19 @@ class CardCompare:
             while repeatIsNecessary:
                 repeatIsNecessary = False
                 for i in range(len(self._population) - 1):
-                    result = CardCompare.compare( self._population[i], self._population[i+1] )
+                    result = CardCompare.compare(self._population[i], self._population[i+1])
                     if result == CardCompare.SECOND:
                         repeatIsNecessary = True
                         self.swapCards(i, i+1)
                 iterations += 1
+
             self._populationSorted = True
 
     def swapCards(self, index1:int, index2: int):
         tempCard = self._population[index1]
         self._population[index1] = self._population[index2]
         self._population[index2] = tempCard
+
 
     def compareNormals(c1: Card, c2: Card):
         c1Normal = c1.layout == 'normal'
