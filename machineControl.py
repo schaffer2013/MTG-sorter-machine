@@ -1,9 +1,9 @@
-from Machine import Machine
-from MachineInterface import MachineInterface
-from MachineSimulated import MachineSimulated
+from MachineManage.Machine import Machine
+from MachineManage.MachineInterface import MachineInterface
+from MachineManage.MachineSimulated import MachineSimulated
 
 FULL_SIMULATION = True
-CONFIG_FILE = 'config.json'
+CONFIG_FILE = 'MachineManage\\config.json'
 
 machineController: MachineInterface
 

@@ -1,4 +1,4 @@
-from MachineInterface import MachineInterface
+from MachineManage.MachineInterface import MachineInterface
 
 class Machine(MachineInterface):
     def __init__(self, config_file_path):

@@ -1,4 +1,4 @@
-from MachineInterface import MachineInterface
+from MachineManage.MachineInterface import MachineInterface
 import random
 
 class MachineSimulated(MachineInterface):

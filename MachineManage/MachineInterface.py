@@ -1,5 +1,6 @@
 import abc
-import json  # Assuming the config file is in JSON format
+import json
+from CardManage.Sorter import Sorter 
 
 class MachineInterface(metaclass=abc.ABCMeta):
 
@@ -8,6 +9,8 @@ class MachineInterface(metaclass=abc.ABCMeta):
         self.config = self.load_config(config_file_path)
         self.numStacks = int(self.readFromConfig('numStacks'))
         self.maxCardsPerStack = int(self.readFromConfig('maxCardsPerStack'))
+
+        self.sorter = Sorter(self.numStacks)
         
 
     def load_config(self, config_file_path):
@@ -36,6 +39,10 @@ class MachineInterface(metaclass=abc.ABCMeta):
     
     @abc.abstractmethod
     def connect(self):
+        pass
+
+    @abc.abstractmethod
+    def takePicture(self):
         pass
     
     @abc.abstractmethod
