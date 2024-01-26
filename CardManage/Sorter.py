@@ -154,15 +154,3 @@ class Sorter:
       self.dealing = not self.dealing
       return self.suggestMove()
     return transferSuggestion
-
-
-
-  # time_start = time()
-  # shuffles = 1000
-  # while shuffles > 1:
-  #   shuffles = todoName(initial_pile, sorting_piles, last_pile)
-  #   sorting_piles.reverse()
-  #   (initial_pile, last_pile) = (last_pile, initial_pile)
-  #   print(time()-time_start)
-
-

@@ -13,6 +13,9 @@ class Machine(MachineInterface):
     def connect(self):
         # Implement the connection logic specific to your machine
         pass
+
+    def takePicture(self):
+        pass
     
     def move(self, pile_index: int):
         # Implement the movement logic specific to your machine

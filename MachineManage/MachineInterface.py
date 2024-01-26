@@ -1,6 +1,6 @@
 import abc
 import json
-from CardManage.Sorter import Sorter 
+from CardManage.Sorter import Sorter
 
 class MachineInterface(metaclass=abc.ABCMeta):
 
@@ -12,7 +12,6 @@ class MachineInterface(metaclass=abc.ABCMeta):
 
         self.sorter = Sorter(self.numStacks)
         
-
     def load_config(self, config_file_path):
         with open(config_file_path, 'r') as file:
             config_data = json.load(file)

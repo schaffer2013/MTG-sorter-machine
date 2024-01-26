@@ -6,7 +6,6 @@ class Card:
         self.name = None
         self.colors = None
 
-
     def __init__(self, name):
         card = scrython.cards.Named(fuzzy=name)
         self.initFromScryfall(card)
@@ -14,6 +13,7 @@ class Card:
     def initFromScryfall(self, scryfallCard):
         self.name = scryfallCard.name().replace("//", "--")
         self.layout = scryfallCard.layout()
+        self.url = scryfallCard.image_uris()['normal']
         if self.layout == 'normal':
             self.cmc = scryfallCard.cmc()
             self.colors = scryfallCard.colors()

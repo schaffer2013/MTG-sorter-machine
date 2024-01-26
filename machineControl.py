@@ -13,6 +13,8 @@ else:
     machineController = Machine(CONFIG_FILE)
 
 def main():
+    machineController.initialize()
+    image = machineController.takePicture()
     print(machineController.x_position)
     
 
