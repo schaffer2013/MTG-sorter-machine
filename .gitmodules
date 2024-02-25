@@ -1,0 +1,3 @@
+[submodule "gcodepy"]
+	path = gcodepy
+	url = https://github.com/schaffer2013/gcodepy.git
